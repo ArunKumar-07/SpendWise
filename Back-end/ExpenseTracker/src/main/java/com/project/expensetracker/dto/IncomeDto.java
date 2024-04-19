@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class IncomeDto {
     private Long id;
-    private Long amount;
+    private Double amount;
     private String Remarks;
     private Date date;
     private UserDetails userDetails;

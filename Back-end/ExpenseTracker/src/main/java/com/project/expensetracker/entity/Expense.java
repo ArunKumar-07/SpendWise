@@ -19,7 +19,7 @@ public class Expense {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
-    private Long amount;
+    private Double amount;
     private Date date;
     private String Category;
     private String Remarks;

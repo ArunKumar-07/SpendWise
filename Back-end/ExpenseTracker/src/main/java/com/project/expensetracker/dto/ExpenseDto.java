@@ -14,7 +14,7 @@ import java.util.Date;
 public class ExpenseDto {
 
     private Long id;
-    private Long amount;
+    private Double amount;
     private Date date;
     private String Category;
     private String Remarks;

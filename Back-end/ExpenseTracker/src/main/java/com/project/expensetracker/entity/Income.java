@@ -18,7 +18,7 @@ public class Income {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
-    private Long amount;
+    private Double amount;
     private String Remarks;
     private Date date;
 

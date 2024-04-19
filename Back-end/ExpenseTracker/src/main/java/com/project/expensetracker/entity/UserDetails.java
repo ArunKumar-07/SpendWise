@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-@Entity
-@Table(name = "usersdetails")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "usersdetails")
+
 
 public class UserDetails {
     @Id
@@ -22,4 +22,7 @@ public class UserDetails {
     private String email;
     private String password;
 
+    public void setUsername(String name) {
+      this.name = name;
+    }
 }
