@@ -9,15 +9,23 @@ import com.project.expensetracker.repository.ExpensesRepository;
 import com.project.expensetracker.service.ExpenseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class ExpenseServiceImpl implements ExpenseService {
 
     private ExpensesRepository expensesRepository;
-    private ModelMapper modelMapper;
+    private final  ModelMapper modelMapper;
+    @Autowired
+    public ExpenseServiceImpl(ExpensesRepository expensesRepository, ModelMapper modelMapper) {
+        this.expensesRepository = expensesRepository;
+        this.modelMapper = modelMapper;
+    }
     @Override
     public ExpenseDto createExpense(ExpenseDto expenseDTO) {
         Expense expense = modelMapper.map(expenseDTO, Expense.class);

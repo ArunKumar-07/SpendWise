@@ -18,7 +18,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
    // @Autowired
     private UserDetailsRepository userDetailsRepository;
-  //  @Autowired
+
+    public UserDetailsServiceImpl(UserDetailsRepository userDetailsRepository, ModelMapper modelMapper) {
+        this.userDetailsRepository = userDetailsRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    //  @Autowired
      private ModelMapper modelMapper;
 
     @Override

@@ -1,7 +1,5 @@
 package com.project.expensetracker.service;
-
 import com.project.expensetracker.dto.ExpenseDto;
-
 import java.util.List;
 
 public interface ExpenseService {
