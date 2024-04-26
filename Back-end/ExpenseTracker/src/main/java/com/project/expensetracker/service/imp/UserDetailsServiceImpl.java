@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-   // @Autowired
+    @Autowired
     private UserDetailsRepository userDetailsRepository;
 
     public UserDetailsServiceImpl(UserDetailsRepository userDetailsRepository, ModelMapper modelMapper) {
@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     //  @Autowired
-     private ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public UserDetailsDto createUser(UserDetailsDto userDetailsDto) {
@@ -40,35 +40,30 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (optionalUser.isPresent()) {
             UserDetails existingUser = optionalUser.get();
 
-            // Update non-null properties from userDTO to existingUser
             if (userDetailsDto.getUsername() != null) {
                 existingUser.setUsername(userDetailsDto.getUsername());
             }
             if (userDetailsDto.getEmail() != null) {
                 existingUser.setEmail(userDetailsDto.getEmail());
             }
-            // Add more properties as needed
-
-            // Save the updated user
             existingUser = userDetailsRepository.save(existingUser);
-
-            // Map the updated user to UserDTO
             return modelMapper.map(existingUser, UserDetailsDto.class);
         }
         throw new ResourceNotFoundException("User not found with id: " + id);
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public UserDetailsDto deleteUser(Long id) {
         if(userDetailsRepository.existsById(id)){
             userDetailsRepository.deleteById(id);
         }else {
             throw new ResourceNotFoundException("User not found with id: " + id);
         }
+        return null;
     }
 
     @Override
-    public UserDetailsDto getUserById(Long id, UserDetailsDto userDetailsDto) {
+    public UserDetailsDto getUserById(Long id) {
         Optional<UserDetails> optionalUser = userDetailsRepository.findById(id);
         if (optionalUser.isPresent()) {
             return modelMapper.map(optionalUser.get(), UserDetailsDto.class);

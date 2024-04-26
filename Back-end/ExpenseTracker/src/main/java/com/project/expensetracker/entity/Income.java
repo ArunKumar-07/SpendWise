@@ -24,6 +24,6 @@ public class Income {
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
-    private UserDetails userDetails;
+    private UserDetails userId;
 
 }

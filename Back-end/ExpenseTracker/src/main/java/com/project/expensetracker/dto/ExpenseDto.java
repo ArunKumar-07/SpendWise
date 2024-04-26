@@ -1,14 +1,12 @@
 package com.project.expensetracker.dto;
 import com.project.expensetracker.entity.UserDetails;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExpenseDto {
@@ -17,6 +15,15 @@ public class ExpenseDto {
     private Double amount;
     private Date date;
     private String Category;
+    private String source;
     private String Remarks;
-    private UserDetails userDetails;
+    private Long user_id;
+
+    public Long getUserId() {
+        return user_id;
+    }
+
+    public void setUserId(Long userId) {
+        this.user_id = userId;
+    }
 }
