@@ -13,16 +13,21 @@ public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private String password;
+    private Double balance;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    private List<Expense> expense;
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    private List<Income> income;
+//    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+//    private List<Transcation> transcation;
+//    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+//    private List<Income> income;
 
-    public void setUsername(String name) {
-        this.name = name;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

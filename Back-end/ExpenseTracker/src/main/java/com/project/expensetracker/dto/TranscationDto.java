@@ -1,5 +1,4 @@
 package com.project.expensetracker.dto;
-import com.project.expensetracker.entity.UserDetails;
 import lombok.*;
 
 import java.util.Date;
@@ -9,7 +8,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExpenseDto {
+public class TranscationDto {
 
     private Long id;
     private Double amount;
@@ -17,7 +16,9 @@ public class ExpenseDto {
     private String Category;
     private String source;
     private String Remarks;
+    private Double currentBalance;
     private Long user_id;
+
 
     public Long getUserId() {
         return user_id;

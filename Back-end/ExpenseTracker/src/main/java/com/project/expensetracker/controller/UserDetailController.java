@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-
+@RequestMapping("/login")
 public class UserDetailController {
     public UserDetailController(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -20,13 +20,11 @@ public class UserDetailController {
     public ResponseEntity<UserDetailsDto> createUserDetails(@RequestBody UserDetailsDto userDetailsDto) {
         UserDetailsDto createdUserDetails = userDetailsService.createUser(userDetailsDto);
         return ResponseEntity.ok(createdUserDetails);
-        // return new ResponseEntity<>(createdUserDetails, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDetailsDto> getUserById(@PathVariable("id")  Long id){
         UserDetailsDto userDetailsDtoGet = userDetailsService.getUserById(id);
-        //  return new ResponseEntity<>(userDetailsDto1, HttpStatus.OK);
         return ResponseEntity.ok(userDetailsDtoGet);
     }
 
@@ -37,7 +35,7 @@ public class UserDetailController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserDetailsDto> updateUserInfo(@PathVariable("id") Long id,UserDetailsDto userDetailsDto){
+    public ResponseEntity<UserDetailsDto> updateUserInfo(@PathVariable("id") Long id,@RequestBody UserDetailsDto userDetailsDto){
         UserDetailsDto userDetailsDtoUpdateUser = userDetailsService.updateUser(id,userDetailsDto);
         return ResponseEntity.ok(userDetailsDtoUpdateUser);
     }

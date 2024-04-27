@@ -1,8 +1,6 @@
 package com.project.expensetracker.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
 
 @Entity
@@ -12,8 +10,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Expense {
-
+public class Transcation {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
@@ -22,19 +19,18 @@ public class Expense {
     private String Category;
     private String source;
     private String Remarks;
+    private Double currentBalance;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserDetails userId;
 
-//    public void setUserDetails(UserDetails userDetails) {
-//        this.userDetails = userDetails;
-//    }
-public UserDetails getUserId(UserDetails userId) {
-    return userId;
-}
+    public UserDetails getUserId(UserDetails userId) {
+        return userId;
+    }
 
     public void setUserId(UserDetails userId) {
         this.userId = userId;
     }
+
 }

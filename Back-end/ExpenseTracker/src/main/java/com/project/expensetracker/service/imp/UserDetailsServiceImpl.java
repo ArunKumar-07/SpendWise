@@ -24,33 +24,72 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.modelMapper = modelMapper;
     }
 
-    //  @Autowired
+     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public UserDetailsDto createUser(UserDetailsDto userDetailsDto) {
         UserDetails userDetails = modelMapper.map(userDetailsDto,UserDetails.class);
+        userDetails.setBalance(0.0);
         userDetails = userDetailsRepository.save(userDetails);
         return  modelMapper.map(userDetails,UserDetailsDto.class);
     }
 
-    @Override
-    public UserDetailsDto updateUser(Long id, UserDetailsDto userDetailsDto) {
-        Optional<UserDetails> optionalUser = userDetailsRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            UserDetails existingUser = optionalUser.get();
+//    @Override
+//    public UserDetailsDto updateUser(Long id, UserDetailsDto userDetailsDto) {
+//        Optional<UserDetails> optionalUser = userDetailsRepository.findById(id);
+//        if (optionalUser.isPresent()) {
+//            UserDetails existingUser = optionalUser.get();
+//
+//            if (userDetailsDto.getUsername() != null) {
+//                existingUser.setUsername(userDetailsDto.getUsername());
+//            }
+//            if (userDetailsDto.getEmail() != null) {
+//                existingUser.setEmail(userDetailsDto.getEmail());
+//            }
+//            existingUser = userDetailsRepository.save(existingUser);
+//            return modelMapper.map(existingUser, UserDetailsDto.class);
+//        }
+//        throw new ResourceNotFoundException("User not found with id: " + id);
+//    }
+@Override
+public UserDetailsDto updateUser(Long id, UserDetailsDto userDetailsDto) {
+    Optional<UserDetails> optionalUser = userDetailsRepository.findById(id);
+    if (optionalUser.isPresent()) {
+        UserDetails existingUser = optionalUser.get();
 
-            if (userDetailsDto.getUsername() != null) {
-                existingUser.setUsername(userDetailsDto.getUsername());
-            }
-            if (userDetailsDto.getEmail() != null) {
-                existingUser.setEmail(userDetailsDto.getEmail());
-            }
-            existingUser = userDetailsRepository.save(existingUser);
-            return modelMapper.map(existingUser, UserDetailsDto.class);
+        // Log the existing user details
+        System.out.println("Existing user details: " + existingUser);
+
+        // Update the user details with non-null values from the userDetailsDto
+        if (userDetailsDto.getUsername() != null) {
+            existingUser.setUsername(userDetailsDto.getUsername());
+            System.out.println("Updated username: " + userDetailsDto.getUsername());
         }
-        throw new ResourceNotFoundException("User not found with id: " + id);
+        if (userDetailsDto.getEmail() != null) {
+            existingUser.setEmail(userDetailsDto.getEmail());
+            System.out.println("Updated email: " + userDetailsDto.getEmail());
+        }
+        if (userDetailsDto.getPassword() != null) {
+            existingUser.setPassword(userDetailsDto.getPassword());
+            System.out.println("Updated password: " + userDetailsDto.getPassword());
+        }
+        if (userDetailsDto.getBalance() != null) {
+            existingUser.setBalance(userDetailsDto.getBalance());
+            System.out.println("Updated balance: " + userDetailsDto.getBalance());
+        }
+
+        // Save the updated user details
+        UserDetails updatedUser = userDetailsRepository.save(existingUser);
+
+        // Log the updated user details
+        System.out.println("Updated user details: " + updatedUser);
+
+        // Map the updated user details to UserDetailsDto and return
+        return modelMapper.map(updatedUser, UserDetailsDto.class);
     }
+    throw new ResourceNotFoundException("User not found with id: " + id);
+}
 
     @Override
     public UserDetailsDto deleteUser(Long id) {
