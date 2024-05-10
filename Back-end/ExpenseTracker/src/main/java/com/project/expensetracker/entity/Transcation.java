@@ -1,5 +1,5 @@
 package com.project.expensetracker.entity;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import java.util.Date;
 
@@ -23,13 +23,13 @@ public class Transcation {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserDetails userId;
+    private UserInformation userId;
 
-    public UserDetails getUserId(UserDetails userId) {
+    public UserInformation getUserId(UserInformation userId) {
         return userId;
     }
 
-    public void setUserId(UserDetails userId) {
+    public void setUserId(UserInformation userId) {
         this.userId = userId;
     }
 

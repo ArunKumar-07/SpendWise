@@ -1,6 +1,6 @@
 package com.project.expensetracker.dto;
 
-import com.project.expensetracker.entity.UserDetails;
+import com.project.expensetracker.entity.UserInformation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +17,5 @@ public class IncomeDto {
     private Double amount;
     private String Remarks;
     private Date date;
-    private UserDetails userDetails;
+    private UserInformation userInformation;
 }

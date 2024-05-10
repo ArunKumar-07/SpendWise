@@ -1,6 +1,6 @@
 package com.project.expensetracker.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +24,6 @@ public class Income {
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
-    private UserDetails userId;
+    private UserInformation userId;
 
 }

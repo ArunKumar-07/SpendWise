@@ -2,12 +2,12 @@ package com.project.expensetracker.service.imp;
 
 import com.project.expensetracker.dto.TranscationDto;
 import com.project.expensetracker.entity.Transcation;
-import com.project.expensetracker.entity.UserDetails;
+import com.project.expensetracker.entity.UserInformation;
 import com.project.expensetracker.exception.ResourceNotFoundException;
 import com.project.expensetracker.repository.TranscationRepository;
-import com.project.expensetracker.repository.UserDetailsRepository;
+import com.project.expensetracker.repository.UserInformationRepository;
 import com.project.expensetracker.service.TranscationService;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class TranscationServiceImpl implements TranscationService {
     private  TranscationRepository transcationRepository;
     private final ModelMapper modelMapper;
     @Autowired
-    private UserDetailsRepository userDetailsRepository;
+    private UserInformationRepository userInformationRepository;
 
     @Autowired
     public TranscationServiceImpl(TranscationRepository transcationRepository, ModelMapper modelMapper) {
@@ -34,13 +34,13 @@ public class TranscationServiceImpl implements TranscationService {
 
         @Override
         public TranscationDto createExpense(TranscationDto transcationDTO, Long userId, String type) {
-            UserDetails userDetails = userDetailsRepository.findById(userId)
+            UserInformation userInformation = userInformationRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("UserDetails not found with id: " + userId));
             Transcation transcation = modelMapper.map(transcationDTO, Transcation.class);
-            transcation.getUserId(userDetails);
+            transcation.getUserId(userInformation);
           //  transcation.setUserId(userDetails);
 
-            Double currentBalance = userDetails.getBalance();
+            Double currentBalance = userInformation.getBalance();
             if("expense".equalsIgnoreCase(type)){
                 currentBalance -= transcationDTO.getAmount();
             }else if ("income".equalsIgnoreCase(type)){
@@ -50,7 +50,7 @@ public class TranscationServiceImpl implements TranscationService {
             }
 
             transcation.setCurrentBalance(currentBalance);
-            userDetails.setBalance(currentBalance);
+            userInformation.setBalance(currentBalance);
 
             try {
                 transcation = transcationRepository.save(transcation);
@@ -66,8 +66,8 @@ public class TranscationServiceImpl implements TranscationService {
 
         if (optionalExpense.isPresent()) {
             Transcation existingTranscation = optionalExpense.get();
-            UserDetails userDetails = existingTranscation.getUserId();
-            Double currentBalance = userDetails.getBalance();
+            UserInformation userInformation = existingTranscation.getUserId();
+            Double currentBalance = userInformation.getBalance();
 
             if ("expense".equalsIgnoreCase(type)) {
                 currentBalance -= transcationDTO.getAmount() - existingTranscation.getAmount();
@@ -76,7 +76,7 @@ public class TranscationServiceImpl implements TranscationService {
             } else {
                 throw new IllegalArgumentException("Invalid type: " + type);
             }
-            userDetails.setBalance(currentBalance);
+            userInformation.setBalance(currentBalance);
 
             BeanUtils.copyProperties(transcationDTO, existingTranscation);
             existingTranscation.setId(id);
@@ -91,9 +91,9 @@ public class TranscationServiceImpl implements TranscationService {
         Optional<Transcation> optionalExpense = transcationRepository.findById(id);
         if (optionalExpense.isPresent()) {
             Transcation existingTranscation = optionalExpense.get();
-            UserDetails userDetails = existingTranscation.getUserId();
+            UserInformation userInformation = existingTranscation.getUserId();
 
-            Double currentBalance = userDetails.getBalance();
+            Double currentBalance = userInformation.getBalance();
             if ("expense".equalsIgnoreCase(type)) {
                 currentBalance += existingTranscation.getAmount();
             } else if ("income".equalsIgnoreCase(type)) {
@@ -101,10 +101,10 @@ public class TranscationServiceImpl implements TranscationService {
             } else {
                 throw new IllegalArgumentException("Invalid type: " + type);
             }
-            userDetails.setBalance(currentBalance);
+            userInformation.setBalance(currentBalance);
 
             transcationRepository.deleteById(id);
-            userDetailsRepository.save(userDetails);
+            userInformationRepository.save(userInformation);
         }else{
             throw new ResourceNotFoundException("Expense not found with id: " + id);
         }
