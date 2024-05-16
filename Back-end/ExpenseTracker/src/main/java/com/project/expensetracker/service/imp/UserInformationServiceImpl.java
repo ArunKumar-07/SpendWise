@@ -35,13 +35,6 @@ public class UserInformationServiceImpl implements UserInformationService {
     }
     private final  ModelMapper modelMapper;
 
-//public void signup(UserInformationDto signupRequest) {
-//    UserInformation userInfo = modelMapper.map(signupRequest, UserInformation.class);
-//    userInfo.setBalance(0.0);
-//    String hashedPassword = passwordEncoder.encode(signupRequest.getPassword());
-//    userInfo.setPassword(hashedPassword);
-//    userInformationRepository.save(userInfo);
-//}
     @Override
     public void signup(UserInformationDto signupRequest) {
         UserInformation userInfo = modelMapper.map(signupRequest, UserInformation.class);
@@ -50,34 +43,21 @@ public class UserInformationServiceImpl implements UserInformationService {
         userInfo.setPassword(hashedPassword);
         userInformationRepository.save(userInfo);
     }
-
-//    public ResponseEntity<String> login(UserInformationDto loginRequest) {
-//        UserInformation userInfo = userInformationRepository.findByUsername(loginRequest.getUsername());
-//        if (userInfo != null) {
-//            if (passwordEncoder.matches(loginRequest.getPassword(), userInfo.getPassword())) {
-//             //   String token = jwtutils.generateJwt(userInfo);
-//             //   System.out.println(token);
-//              //  return ResponseEntity.ok().header("Authorization", "Bearer " + token).body("Login successful");
-//                return ResponseEntity.ok("true");
-//            }
-//        }
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-//    }
-
     @Override
     public ResponseEntity<String> login(UserInformationDto loginRequest) {
-        UserInformation userInfo = userInformationRepository.findByUsername(loginRequest.getUsername());
-        if (userInfo != null) {
-            if (passwordEncoder.matches(loginRequest.getPassword(), userInfo.getPassword())) {
-                Long userId = userInfo.getId();
-                String token = jwtutils.generateJwt(userId,loginRequest.getUsername());
-                System.out.printf(token);
-                return ResponseEntity.ok(token);
-            }
+        System.out.println("service class entry");
+        UserInformation userInfo = userInformationRepository.findByEmail(loginRequest.getEmail());
+        if (userInfo == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email not found");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        if (!passwordEncoder.matches(loginRequest.getPassword(), userInfo.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+        }
+        Long userId = userInfo.getId();
+        String token = jwtutils.generateJwt(userId, userInfo.getUsername());
+        System.out.printf(token);
+        return ResponseEntity.ok(token);
     }
-
 
 @Override
 public UserInformationDto updateUser(Long id, UserInformationDto userInformationDto) {

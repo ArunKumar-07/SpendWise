@@ -21,16 +21,13 @@ public class Transcation {
     private String Remarks;
     private Double currentBalance;
 
+    @Setter
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private UserInformation userId;
 
     public UserInformation getUserId(UserInformation userId) {
         return userId;
-    }
-
-    public void setUserId(UserInformation userId) {
-        this.userId = userId;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.project.expensetracker.config;
 
-
 import com.project.expensetracker.util.Jwtutils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -14,33 +13,44 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    private final Jwtutils jwtutils;
+
     public JwtRequestFilter(Jwtutils jwtutils) {
         this.jwtutils = jwtutils;
     }
 
-    private Jwtutils jwtutils;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
-
-        String username = null;
-        String jwtToken = null;
-
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-            username = jwtutils.extractUsername(jwtToken);
-        }
-        if (username != null && jwtToken != null && jwtutils.validateToken(jwtToken, username)) {
-            // Token is valid. Set the user in SecurityContext
-            // You might use Spring Security to set the user in SecurityContext instead
-            request.setAttribute("username", username);
+        if (request.getRequestURI().equals("/new/signup") || request.getRequestURI().equals("/new/login")) {
             chain.doFilter(request, response);
-        } else {
-            // Token is not valid
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write("Unauthorized access");
             return;
+        }
+
+        final String requestTokenHeader = request.getHeader("Authorization");
+        System.out.println("validate token process : ");
+        if (requestTokenHeader == null ) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            System.out.println("Authorization header is missing or invalid");
+            response.getWriter().write("Authorization header is missing or invalid");
+            return;
+        }
+
+        String jwtToken = requestTokenHeader.substring(7);
+        try {
+            String username = jwtutils.extractUsername(jwtToken);
+            if (username != null && jwtutils.validateToken(jwtToken, username)) {
+                System.out.println("token is success");
+                request.setAttribute("username", username);
+                chain.doFilter(request, response);
+            } else {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                System.out.println("Invalid or expired token");
+                response.getWriter().write("Invalid or expired token");
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            System.out.println("Error processing token");
+            response.getWriter().write("Error processing token: " + e.getMessage());
         }
     }
 }

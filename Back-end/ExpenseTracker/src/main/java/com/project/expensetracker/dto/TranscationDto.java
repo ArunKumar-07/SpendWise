@@ -17,14 +17,6 @@ public class TranscationDto {
     private String source;
     private String Remarks;
     private Double currentBalance;
-    private Long user_id;
+    private Long userId;
 
-
-    public Long getUserId() {
-        return user_id;
-    }
-
-    public void setUserId(Long userId) {
-        this.user_id = userId;
-    }
 }

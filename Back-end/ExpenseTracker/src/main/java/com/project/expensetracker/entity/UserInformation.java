@@ -1,6 +1,5 @@
 package com.project.expensetracker.entity;
 import lombok.*;
-
 import javax.persistence.*;
 
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "usersdetails")
+//@Table(name = "userinformation")
 public class UserInformation  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +22,5 @@ public class UserInformation  {
     @Column(nullable = false)
     private String password;
     private Double balance;
-//    public String getUsername() {
-//        return username;
-//    }
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
+
 }

@@ -23,8 +23,8 @@ public ResponseEntity<?> signup(@RequestBody UserInformationDto signupRequest) {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserInformationDto loginRequest) {
-        userInformationService.login(loginRequest);
-        return ResponseEntity.ok("login successful");
+        ResponseEntity<String> response =   userInformationService.login(loginRequest);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
