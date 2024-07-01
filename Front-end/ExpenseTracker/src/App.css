@@ -1,0 +1,39 @@
+:root {
+  --background-light: #fafafa;
+  --foreground-light: #1f2023;
+  --background-dark: #1f2023;
+  --foreground-dark: #efefef;
+  --icon-light-mode-color: #fbc02d; 
+  --icon-dark-mode-color: #757575;
+}
+body {
+  background-color: var(--background-light);
+  color: var(--foreground-light);
+  transition: background-color 0.3s, color 0.3s;
+}
+body.dark {
+  background-color: var(--background-dark);
+  color: var(--foreground-dark);
+}
+img,
+video {
+  filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
+}
+
+.main_content {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+.main_content.sidebar-closed {
+  margin-left: 80px;
+}
+.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark .main_content {
+  background-color: #121212;
+  color: #ffffff;
+}

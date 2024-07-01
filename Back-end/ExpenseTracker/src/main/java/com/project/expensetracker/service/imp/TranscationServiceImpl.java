@@ -33,7 +33,7 @@ public class TranscationServiceImpl implements TranscationService {
     }
 
         @Override
-        public TranscationDto createExpense(TranscationDto transcationDTO, Long userId, String type) {
+        public TranscationDto createExpense(TranscationDto transcationDTO, Long userId, String type) { 
             UserInformation userInformation = userInformationRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("UserDetails not found with id: " + userId));
             Transcation transcation = modelMapper.map(transcationDTO, Transcation.class);

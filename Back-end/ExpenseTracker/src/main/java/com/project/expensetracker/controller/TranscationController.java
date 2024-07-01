@@ -23,8 +23,6 @@ public class TranscationController {
         TranscationDto createdExpense = transcationService.createExpense(transcationDto, userId,type);
         return ResponseEntity.ok(createdExpense);
     }
-
-
     @GetMapping("/all/{id}")
     public ResponseEntity<List<TranscationDto>> getAllExpenseById(@PathVariable("id") String userId) {
         List<TranscationDto> expenses = transcationService.getAllExpenseById(userId);
