@@ -9,5 +9,5 @@ public interface TranscationService {
     TranscationDto updateExpense(Long id, TranscationDto transcationDTO, String type);
     void deleteExpense(Long id,String type);
     List<TranscationDto> getAllExpenseById(String currentUserIdentifier);
-    List<TranscationDto> getCategory(Long id, String medium);
+    List<TranscationDto> getStatement(Long id, String statement);
 }

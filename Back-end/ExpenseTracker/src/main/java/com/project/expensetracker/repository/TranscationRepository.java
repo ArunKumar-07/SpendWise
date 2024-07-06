@@ -14,8 +14,8 @@ public interface TranscationRepository extends JpaRepository<Transcation,Long> {
     List<Transcation> findByUserId(@Param("userId") Long userId);
 
 
-    @Query("SELECT e FROM Transcation e JOIN e.userId u WHERE u.id = :userId AND e.Category = :category")
-    List<Transcation> findByUserIdAndCategory(@Param("userId") Long userId, String category);
+    @Query("SELECT e FROM Transcation e JOIN e.userId u WHERE u.id = :userId AND e.statement = :statement")
+    List<Transcation> findByUserIdAndStatement(@Param("userId") Long userId, String statement);
 
 
 }

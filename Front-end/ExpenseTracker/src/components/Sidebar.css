@@ -24,12 +24,12 @@ body.dark {
 
 .sidebar {
   background-color: var(--white-color);
-  width: 165px;
+  width: 180px;
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  padding: 80px 20px;
+  padding: 65px 10px;
   z-index: 100;
   overflow-y: scroll;
   box-shadow: 0 0 1px var(--grey-color-light);
@@ -47,18 +47,20 @@ body.dark {
 
 .menu_content {
   position: relative;
+  
 }
 
 .menu_items {
+
   padding: 0;
   list-style: none;
 }
 
 .navlink_icon {
   position: relative;
-  font-size: 22px;
+  font-size: 10px;
   min-width: 50px;
-  line-height: 40px;
+  line-height: 10px;
   display: inline-block;
   text-align: center;
   border-radius: 6px;
@@ -151,8 +153,13 @@ body.dark {
 }
 
 .sidebar.close .bottom_content {
-  width: 40px;
-  left: 15px;
+  width: 55px;
+  left: 0;
+}
+
+.sidebar.close .bottom {
+  justify-content: center;
+  padding: 18px 0;
 }
 
 .sidebar.close .bottom span {
@@ -175,4 +182,46 @@ body.dark .sidebar {
 
 body.dark .sidebar .nav_link {
   color: var(--grey-color);
+}
+
+.collapse-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.sidebar.close .collapse-icon {
+  display: block;
+  margin: 0 auto;
+}
+
+
+.sidebar.close .bottom .collapse-icon { 
+  margin: 0 auto;
+}
+
+/* New styles for menu icons */
+.navlink_icon {
+  width: 1px;  /* Adjust size as needed */
+  height: 45px;
+  margin-right: 3px;  
+}
+
+.sidebar.close .navlink_icon {
+  margin-right: 0;
+}
+
+.sidebar.close .nav_link {
+  justify-content: center;
+}
+
+.sidebar .nav_link {
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure icons are visible when sidebar is closed */
+.sidebar.close .navlink_icon {
+  display: block;
 }

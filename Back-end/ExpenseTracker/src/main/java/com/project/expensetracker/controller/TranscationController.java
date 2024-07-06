@@ -15,12 +15,24 @@ import java.util.List;
 public class TranscationController {
     //@Autowired
     private TranscationService transcationService;
-    
+
+//    {
+//        "userId":1,
+//            "amount": 800000.0,
+//            "date": "2024-04-17",
+//            "source": "online",
+//            "category": "EMI",
+//            "remarks": "phone"
+//    }
 
     @PostMapping("create/{type}")
     public ResponseEntity<TranscationDto> createExpense(@RequestBody TranscationDto transcationDto, @PathVariable("type") String type) {
         Long userId = transcationDto.getUserId();
-        TranscationDto createdExpense = transcationService.createExpense(transcationDto, userId,type);
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null");
+        }
+        System.out.println("Received userId: " + userId);
+        TranscationDto createdExpense = transcationService.createExpense(transcationDto, userId, type);
         return ResponseEntity.ok(createdExpense);
     }
     @GetMapping("/all/{id}")
@@ -29,15 +41,14 @@ public class TranscationController {
         return ResponseEntity.ok(expenses);
     }
 
-    @GetMapping("/get/{medium}/{id}")
-    public ResponseEntity<?> getByCategory(@PathVariable("id") Long id, @PathVariable("medium") String medium) {
-        List<TranscationDto> categoryDiff = transcationService.getCategory(id, medium);
+    @GetMapping("/get/{statement}/{id}")
+    public ResponseEntity<?> getByCategory(@PathVariable("id") Long id, @PathVariable("statement") String statement) {
+        List<TranscationDto> statementDiff = transcationService.getStatement(id, statement);
 
-        if (categoryDiff.isEmpty()) {
+        if (statementDiff.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No data found");
         }
-
-        return ResponseEntity.ok(categoryDiff);
+        return ResponseEntity.ok(statementDiff);
     }
 
     @PutMapping("update/{id}/{type}")
@@ -51,7 +62,4 @@ public class TranscationController {
         transcationService.deleteExpense(id,type);
         return ResponseEntity.noContent().build();
     }
-
-
-
 }

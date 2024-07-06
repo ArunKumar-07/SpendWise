@@ -28,8 +28,8 @@ function App() {
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isDarkMode={isDarkMode} />
         <div className="main_content">
           <Routes>
+          <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
             <Route path="/income" element={<Income />} />
             <Route path="/expenses" element={<Expenses />} />
           </Routes>

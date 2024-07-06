@@ -1,7 +1,7 @@
 package com.project.expensetracker.dto;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,9 +12,10 @@ public class TranscationDto {
 
     private Long id;
     private Double amount;
-    private Date date;
-    private String Category;
-    private String source;
+    private LocalDate date;
+    private String statement;
+    private String modeOfPayment;
+    private String category;
     private String Remarks;
     private Double currentBalance;
     private Long userId;

@@ -1,0 +1,341 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.Expense-page {
+  background: #fefefe;
+  color: #000000;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Poppins", sans-serif;
+  transition: filter 0.3s ease-in-out;
+}
+
+.Expense-page h1 {
+  color: #e11d48;
+}
+
+h1 {
+  color: #3d3d3d;
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  margin: 20px 0 30px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+form {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 0 0 48%;
+}
+
+.form-group.full-width {
+  flex: 0 0 100%;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: black;
+  background-color: white;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  color: black;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 12px;
+  display: inline-block !important;
+  visibility: visible !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: black;
+  opacity: 1;
+  display: block;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+  cursor: pointer;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: black;
+  font-size: 14px;
+}
+
+.submitButton {
+  background-color: #4285f4;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.submitButton:hover {
+  background-color: #3367d6;
+}
+
+.table-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin-top: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #5f6368;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.amount, .current-balance {
+  color: #85BB65;
+  font-weight: 600;
+}
+
+.message {
+  text-align: center;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.message.success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.message.delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.message.show {
+  transform: translateY(0);
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.icon-button img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.icon-button:hover img {
+  transform: scale(1.1);
+}
+
+.icon-button.edit {
+  background-color: rgba(66, 133, 244, 0.1);
+}
+
+.icon-button.delete {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.icon-button.edit:hover {
+  background-color: rgba(66, 133, 244, 0.2);
+}
+
+.icon-button.delete:hover {
+  background-color: rgba(244, 67, 54, 0.2);
+}
+
+.Expense-transactions-heading {
+  color: #e11d48;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+}
+
+body.popup-open {
+  overflow: hidden;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #e11d48;
+  font-size: 20px;
+}
+
+.popup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-field {
+  margin-bottom: 15px;
+}
+
+.popup-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #170202d8;
+  font-size: large;
+}
+
+.popup-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #656363;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.popup-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.popup-buttons button:first-child {
+  background-color: #4285f4;
+  color: white;
+  margin-right: 10px;
+}
+
+.popup-buttons button:last-child {
+  background-color: #f1f3f4;
+  color: #5f6368;
+}
+
+.popup-buttons button:hover {
+  opacity: 0.9;
+}
+
+/* Dark mode styling */
+body.dark-mode .Expense-page {
+  background: #333;
+  color: #fff;
+}
+
+body.dark-mode form,
+body.dark-mode .table-container {
+  background: #444;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode input[type="date"] {
+  background: #555;
+  border-color: #666;
+  color: #fff;
+}
+
+body.dark-mode label {
+  color: #ddd;
+}
+
+body.dark-mode .submitButton {
+  background-color: #888;
+}
+
+body.dark-mode th {
+  background-color: #555;
+  color: #fff;
+}
+
+body.dark-mode td {
+  color: #fff;
+}

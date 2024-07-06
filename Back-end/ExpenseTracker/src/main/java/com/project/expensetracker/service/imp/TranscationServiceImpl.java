@@ -36,9 +36,9 @@ public class TranscationServiceImpl implements TranscationService {
         public TranscationDto createExpense(TranscationDto transcationDTO, Long userId, String type) { 
             UserInformation userInformation = userInformationRepository.findById(userId)
                     .orElseThrow(() -> new EntityNotFoundException("UserDetails not found with id: " + userId));
+            transcationDTO.setStatement(type);
             Transcation transcation = modelMapper.map(transcationDTO, Transcation.class);
             transcation.getUserId(userInformation);
-          //  transcation.setUserId(userDetails);
 
             Double currentBalance = userInformation.getBalance();
             if("expense".equalsIgnoreCase(type)){
@@ -119,16 +119,14 @@ public class TranscationServiceImpl implements TranscationService {
     }
 
 @Override
-public List<TranscationDto> getCategory(Long id, String medium) {
-    List<Transcation> category = transcationRepository.findByUserIdAndCategory(id, medium);
+public List<TranscationDto> getStatement(Long id, String statement) {
+    List<Transcation> category = transcationRepository.findByUserIdAndStatement(id, statement);
 
-    if (id == null || medium == null || category.isEmpty()) {
+    if (id == null ||  statement.isEmpty()) {
         return Collections.emptyList();
     }
-
     return category.stream()
             .map(expense -> modelMapper.map(expense, TranscationDto.class))
             .collect(Collectors.toList());
-}
-
+    }
 }
