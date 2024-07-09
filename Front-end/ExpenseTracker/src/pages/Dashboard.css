@@ -1,0 +1,154 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
+
+.expense-summary {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.expense-summary h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.expense-summary p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.charts-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 70px;
+}
+
+.chart-wrapper {
+  width: 48%;
+  height: 400px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Add this line */
+}
+
+.chart-wrapper h3 {
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+select {
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.lower-section {
+  clear: both;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.all-transactions-heading {
+  color: #e11d48;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #5f6368;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.amount {
+  font-weight: 600;
+}
+
+.amount.income {
+  color: #4CAF50;
+}
+
+.amount.expense {
+  color: #F44336;
+}
+
+.current-balance {
+  font-weight: 600;
+  color: #2196F3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .charts-container {
+    flex-direction: column;
+  }
+
+  .chart-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}
+
+/* Additional styles for better visual hierarchy */
+.bar-chart, .pie-chart {
+  transition: box-shadow 0.3s ease;
+}
+
+.bar-chart:hover, .pie-chart:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Style for action buttons if you add them later */
+.action-button {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
