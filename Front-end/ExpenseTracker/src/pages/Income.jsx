@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from '../axiosConfig'; 
 import "./Income.css";
 
 function Form({ onSubmitSuccess }) {
   const [formData, setFormData] = useState({
-    userId: "",
     amount: "",
     date: "",
     modeOfPayment: "",
@@ -21,7 +20,6 @@ function Form({ onSubmitSuccess }) {
       await axios.post("http://localhost:8080/new/create/income", formData);
       onSubmitSuccess();
       setFormData({
-        userId: "",
         amount: "",
         date: "",
         modeOfPayment: "",
@@ -35,10 +33,6 @@ function Form({ onSubmitSuccess }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-row">
-        <div className="form-group">
-          <label>User ID</label>
-          <input name="userId" value={formData.userId} onChange={handleChange} />
-        </div>
         <div className="form-group">
           <label>Amount</label>
           <input
@@ -60,11 +54,11 @@ function Form({ onSubmitSuccess }) {
               onChange={handleChange}
               onFocus={(e) => e.target.showPicker()}
             />
-              <img 
-                    src="https://img.icons8.com/?size=100&id=10053&format=png&color=000000" 
-                    alt="Date" 
-                    className="date-icon"
-                  />
+            <img 
+              src="https://img.icons8.com/?size=100&id=10053&format=png&color=000000" 
+              alt="Date" 
+              className="date-icon"
+            />
           </div>
         </div>
         <div className="form-group">
@@ -114,7 +108,7 @@ function IncomeTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   const fetchTransactions = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/new/get/income/1");
+      const response = await axios.get("http://localhost:8080/new/get/income");
       setTransactions(response.data);
     } catch (error) {
       console.error("There was an error fetching the transactions!", error);
@@ -133,7 +127,7 @@ function IncomeTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/new/delete/${currentTransaction.id}/income`);
+      await axios.delete(`http://localhost:8080/new/delete/income/${currentTransaction.id}`);
       setShowDeletePopup(false);
       fetchTransactions();
       onDeleteSuccess();
@@ -144,7 +138,7 @@ function IncomeTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8080/new/update/${currentTransaction.id}/income`, currentTransaction);
+      await axios.put(`http://localhost:8080/new/update/income/${currentTransaction.id}`, currentTransaction);
       setShowPopup(false);
       fetchTransactions();
       onUpdateSuccess();
@@ -162,11 +156,10 @@ function IncomeTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   return (
     <div className={`table-container ${showPopup || showDeletePopup ? 'blur-background' : ''}`}>
-       <h2 className="income-transactions-heading">Income Transactions</h2>
+      <h2 className="income-transactions-heading">Income Transactions</h2>
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Amount</th>
             <th>Date</th>
             <th>Mode of Payment</th>
@@ -178,7 +171,6 @@ function IncomeTable({ onUpdateSuccess, onDeleteSuccess }) {
         <tbody>
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
-              <td>{transaction.id}</td>
               <td className="amount">₹{transaction.amount}</td>
               <td>{transaction.date}</td>
               <td>{transaction.modeOfPayment}</td>
@@ -200,7 +192,7 @@ function IncomeTable({ onUpdateSuccess, onDeleteSuccess }) {
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-content">
-            <h3   >Edit Transaction</h3>
+            <h3>Edit Transaction</h3>
             <form className="popup-form">
               <div className="popup-field">
                 <label>Amount</label>
@@ -311,4 +303,4 @@ export default function Income() {
       <IncomeTable onUpdateSuccess={handleUpdateSuccess} onDeleteSuccess={handleDeleteSuccess} />
     </div>
   );
-} 
+}

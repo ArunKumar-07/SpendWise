@@ -23,15 +23,14 @@ import java.util.stream.Collectors;
 public class UserInformationServiceImpl implements UserInformationService {
 
     private final UserInformationRepository userInformationRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private Jwtutils jwtutils;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final Jwtutils jwtutils;
 
-    public UserInformationServiceImpl(UserInformationRepository userInformationRepository, ModelMapper modelMapper,BCryptPasswordEncoder passwordEncoder) {
+    public UserInformationServiceImpl(UserInformationRepository userInformationRepository, ModelMapper modelMapper, BCryptPasswordEncoder passwordEncoder, Jwtutils jwtutils) {
         this.userInformationRepository = userInformationRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder=passwordEncoder;
+        this.jwtutils = jwtutils;
     }
     private final  ModelMapper modelMapper;
 

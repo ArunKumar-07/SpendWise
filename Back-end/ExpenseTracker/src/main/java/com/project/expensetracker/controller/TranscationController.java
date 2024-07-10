@@ -3,11 +3,11 @@ package com.project.expensetracker.controller;
 import com.project.expensetracker.dto.TranscationDto;
 import com.project.expensetracker.service.TranscationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -15,33 +15,30 @@ import java.util.List;
 @AllArgsConstructor
 public class TranscationController {
     private TranscationService transcationService;
-//    {
-//        "userId":1,
-//            "amount": 800000.0,
-//            "date": "2024-04-17",
-//            "source": "online",
-//            "category": "EMI",
-//            "remarks": "phone"
-//    }
 
     @PostMapping("create/{type}")
-    public ResponseEntity<TranscationDto> createExpense(@RequestBody TranscationDto transcationDto, @PathVariable("type") String type) {
-        Long userId = transcationDto.getUserId();
+    public ResponseEntity<TranscationDto> createExpense(HttpServletRequest request,@RequestBody TranscationDto transcationDto, @PathVariable("type") String type) {
+        Long userId = (Long) request.getAttribute("userId");
         if (userId == null) {
             throw new IllegalArgumentException("User ID must not be null");
         }
         TranscationDto createdExpense = transcationService.createExpense(transcationDto, userId, type);
         return ResponseEntity.ok(createdExpense);
     }
-    @GetMapping("/all/{id}")
-    public ResponseEntity<List<TranscationDto>> getAllExpenseById(@PathVariable("id") String userId) {
-        List<TranscationDto> expenses = transcationService.getAllExpenseById(userId);
+    @GetMapping("/all")
+    public ResponseEntity<List<TranscationDto>> getAllExpenseById(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        List<TranscationDto> expenses = transcationService.getAllExpenseById(userId.toString());
         return ResponseEntity.ok(expenses);
     }
 
-    @GetMapping("/get/{statement}/{id}")
-    public ResponseEntity<?> getByCategory(@PathVariable("id") Long id, @PathVariable("statement") String statement) {
-        List<TranscationDto> statementDiff = transcationService.getStatement(id, statement);
+    @GetMapping("/get/{statement}")
+    public ResponseEntity<?> getByCategory(HttpServletRequest request ,@PathVariable("statement") String statement) {
+        Long userId = (Long) request.getAttribute("userId");
+        List<TranscationDto> statementDiff = transcationService.getStatement(userId, statement);
 
         if (statementDiff.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No data found");
@@ -49,15 +46,16 @@ public class TranscationController {
         return ResponseEntity.ok(statementDiff);
     }
 
-    @PutMapping("update/{id}/{type}")
-    public ResponseEntity<TranscationDto> updateTranscation(@PathVariable("id") Long id ,@RequestBody TranscationDto transcationDto,@PathVariable("type") String type){
+    @PutMapping("update/{type}/{id}")
+    public ResponseEntity<TranscationDto> updateTranscation(@PathVariable Long id,@RequestBody TranscationDto transcationDto,@PathVariable("type") String type){
         TranscationDto updateTranscationDto = transcationService.updateExpense(id , transcationDto,type);
         return ResponseEntity.ok(updateTranscationDto);
     }
 
- @DeleteMapping("delete/{id}/{type}")
-    public ResponseEntity<Void> deleteTranscation(@PathVariable("id") Long id,@PathVariable("type") String type ){
-        transcationService.deleteExpense(id,type);
+ @DeleteMapping("delete/{type}")
+    public ResponseEntity<Void> deleteTranscation(HttpServletRequest request,@PathVariable("type") String type ){
+     Long userId = (Long) request.getAttribute("userId");
+        transcationService.deleteExpense(userId,type);
         return ResponseEntity.noContent().build();
     }
 }

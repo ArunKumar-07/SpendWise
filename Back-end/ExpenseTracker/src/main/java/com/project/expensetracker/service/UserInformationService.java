@@ -12,7 +12,7 @@ public interface UserInformationService  {
     UserInformationDto getUserById(Long id);
     List<UserInformationDto> getAllUser();
     void signup(UserInformationDto signupRequest);
-    ResponseEntity<String> login(UserInformationDto loginRequest);
+ ResponseEntity<String> login(UserInformationDto loginRequest);
 
 }
 

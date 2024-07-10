@@ -40,7 +40,15 @@ public class Jwtutils {
             throw new JwtGenerationException("Failed to generate JWT token", e);
         }
     }
-
+    public Long extractUserId(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return claims.get("userId", Long.class);
+        } catch (Exception e) {
+            logger.error("Failed to extract user ID from token: {}", e.getMessage());
+            throw new JwtParsingException("Failed to extract user ID from token", e);
+        }
+    }
     public String extractUsername(String token) {
         try {
             return extractClaim(token, Claims::getSubject);

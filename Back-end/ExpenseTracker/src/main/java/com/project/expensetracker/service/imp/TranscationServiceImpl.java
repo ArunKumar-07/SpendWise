@@ -21,9 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class TranscationServiceImpl implements TranscationService {
 
-    private  TranscationRepository transcationRepository;
+    private final TranscationRepository transcationRepository;
     private final ModelMapper modelMapper;
-    @Autowired
     private UserInformationRepository userInformationRepository;
 
     @Autowired
@@ -38,7 +37,8 @@ public class TranscationServiceImpl implements TranscationService {
                     .orElseThrow(() -> new EntityNotFoundException("UserDetails not found with id: " + userId));
             transcationDTO.setStatement(type);
             Transcation transcation = modelMapper.map(transcationDTO, Transcation.class);
-            transcation.getUserId(userInformation);
+            transcation.setUserId(userInformation);
+           // transcation.getUserId(userInformation);
 
             Double currentBalance = userInformation.getBalance();
             if("expense".equalsIgnoreCase(type)){

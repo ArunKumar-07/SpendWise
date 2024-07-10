@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig'; 
 import { Bar, Pie } from 'react-chartjs-2';
 import "./Dashboard.css";
 import {
@@ -40,13 +40,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (transactions.length > 0) {
+      console.log('Transactions:', transactions);
       prepareChartData(transactions);
     }
   }, [transactions, selectedMonth, selectedYear]);
 
   const fetchExpenseData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/new/get/expense/1');
+      const response = await axios.get('http://localhost:8080/new/get/expense');
       setExpenseData(response.data);
     } catch (error) {
       console.error('Error fetching expense data:', error);
@@ -55,8 +56,12 @@ const Dashboard = () => {
 
   const fetchAllTransactions = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/new/all/1');
-      setTransactions(response.data);
+      const response = await axios.get('http://localhost:8080/new/all');
+      if (response.data && Array.isArray(response.data)) {
+        setTransactions(response.data);
+      } else {
+        console.error('Unexpected data format:', response.data);
+      }
     } catch (error) {
       console.error('Error fetching transactions:', error);
     }
@@ -66,14 +71,16 @@ const Dashboard = () => {
     const monthlyExpenses = {};
     const categoryExpenses = {};
 
-    data.forEach(transaction => {
+    const validTransactions = data.filter(transaction => transaction && transaction.statement);
+
+    validTransactions.forEach(transaction => {
       const date = new Date(transaction.date);
       const month = date.getMonth();
       const year = date.getFullYear();
       const amount = parseFloat(transaction.amount);
-      const category = transaction.category.toLowerCase();
+      const category = transaction.category ? transaction.category.toLowerCase() : 'uncategorized';
 
-      if (transaction.statement.toLowerCase() === 'expense') {
+      if (transaction.statement && transaction.statement.toLowerCase() === 'expense') {
         // Monthly expenses for bar chart
         if (year === selectedYear) {
           if (!monthlyExpenses[month]) {
@@ -130,6 +137,7 @@ const Dashboard = () => {
         {expenseData && (
           <>
             <h2>Expense Summary</h2>
+            {/* Add your expense summary content here */}
           </>
         )}
       </div>
@@ -198,7 +206,6 @@ const Dashboard = () => {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Amount</th>
               <th>Date</th>
               <th>Mode of Payment</th>
@@ -209,10 +216,9 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((transaction) => (
-              <tr key={transaction.id}>
-                <td>{transaction.id}</td>
-                <td className={`amount ${transaction.statement.toLowerCase() === 'income' ? 'income' : 'expense'}`}>
+            {transactions.map((transaction, index) => (
+              <tr key={index}>
+                <td className={`amount ${transaction.statement && transaction.statement.toLowerCase() === 'income' ? 'income' : 'expense'}`}>
                   ₹{transaction.amount}
                 </td>
                 <td>{new Date(transaction.date).toLocaleDateString()}</td>

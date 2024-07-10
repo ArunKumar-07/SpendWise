@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from '../axiosConfig'; 
 import "./Expense.css";
 
 function Form({ onSubmitSuccess }) {
   const [formData, setFormData] = useState({
-    userId: "",
     amount: "",
     date: "",
     modeOfPayment: "",
@@ -22,7 +21,6 @@ function Form({ onSubmitSuccess }) {
       await axios.post("http://localhost:8080/new/create/Expense", formData);
       onSubmitSuccess();
       setFormData({
-        userId: "",
         amount: "",
         date: "",
         modeOfPayment: "",
@@ -130,7 +128,7 @@ function ExpenseTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   const fetchTransactions = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/new/get/Expense/1");
+      const response = await axios.get("http://localhost:8080/new/get/Expense");
       setTransactions(response.data);
     } catch (error) {
       console.error("There was an error fetching the transactions!", error);
@@ -149,7 +147,7 @@ function ExpenseTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/new/delete/${currentTransaction.id}/Expense`);
+      await axios.delete(`http://localhost:8080/new/delete/Expense/${currentTransaction.id}`);
       setShowDeletePopup(false);
       fetchTransactions();
       onDeleteSuccess();
@@ -160,7 +158,7 @@ function ExpenseTable({ onUpdateSuccess, onDeleteSuccess }) {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8080/new/update/${currentTransaction.id}/Expense`, currentTransaction);
+      await axios.put(`http://localhost:8080/new/update/Expense/${currentTransaction.id}`, currentTransaction);
       setShowPopup(false);
       fetchTransactions();
       onUpdateSuccess();

@@ -201,9 +201,9 @@ body.dark .sidebar .nav_link {
   margin: 0 auto;
 }
 
-/* New styles for menu icons */
+
 .navlink_icon {
-  width: 1px;  /* Adjust size as needed */
+  width: 1px;  
   height: 45px;
   margin-right: 3px;  
 }
@@ -221,7 +221,6 @@ body.dark .sidebar .nav_link {
   align-items: center;
 }
 
-/* Ensure icons are visible when sidebar is closed */
 .sidebar.close .navlink_icon {
   display: block;
 }

@@ -24,12 +24,12 @@ public class Transcation {
     private String modeOfPayment;
     private String Remarks;
     private Double currentBalance;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private UserInformation userId;
 
-    public UserInformation getUserId(UserInformation userId) {
-        return userId;
-    }
+//    public UserInformation getUserId(UserInformation userId) {
+//        return userId;
+//    }
 
 }

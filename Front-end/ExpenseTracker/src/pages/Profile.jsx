@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig'; 
 import './Profile.css';
 
 const Profile = () => {
@@ -13,7 +13,7 @@ const Profile = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/new/1');
+      const response = await axios.get('http://localhost:8080/new/current');
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -22,7 +22,7 @@ const Profile = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8080/new/update/${user.id}`, user);
+      await axios.put(`http://localhost:8080/new/update`, user);
       setShowUpdateModal(false);
       fetchUserData();
     } catch (error) {
@@ -32,9 +32,10 @@ const Profile = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8080/new/delete/${user.id}`);
+      await axios.delete(`http://localhost:8080/new/delete`);
       setShowDeleteModal(false);
-      // Redirect to home page or login page after deletion
+      navigate('/login');
+      //login page 
     } catch (error) {
       console.error('Error deleting user account:', error);
     }

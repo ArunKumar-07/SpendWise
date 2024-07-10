@@ -128,7 +128,7 @@ tbody tr:hover {
   }
 }
 
-/* Additional styles for better visual hierarchy */
+
 .bar-chart, .pie-chart {
   transition: box-shadow 0.3s ease;
 }
@@ -137,7 +137,6 @@ tbody tr:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Style for action buttons if you add them later */
 .action-button {
   padding: 6px 12px;
   margin: 0 4px;

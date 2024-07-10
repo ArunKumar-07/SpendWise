@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import Income from './pages/Income';
 import Expenses from './pages/Expenses';
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
 import './App.css';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -21,17 +24,33 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('jwt');
+  };
+
   return (
     <div className={isDarkMode ? 'dark' : ''}>
       <Router>
-        <Navbar toggleSidebar={toggleSidebar} isDarkMode={isDarkMode} />
-        <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isDarkMode={isDarkMode} />
-        <div className="main_content">
+        {isAuthenticated && (
+          <>
+            <Navbar toggleSidebar={toggleSidebar} isDarkMode={isDarkMode} onLogout={handleLogout} />
+            <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isDarkMode={isDarkMode} />
+          </>
+        )}
+        <div className={isAuthenticated ? "main_content" : ""}>
           <Routes>
-          <Route path="/profile" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/income" element={<Income />} />
-            <Route path="/expenses" element={<Expenses />} />
+            <Route path="/login" element={!isAuthenticated ? <Login onLogin={handleLogin} /> : <Navigate to="/dashboard" />} />
+            <Route path="/signup" element={!isAuthenticated ? <Signup /> : <Navigate to="/dashboard" />} />
+            <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+            <Route path="/income" element={isAuthenticated ? <Income /> : <Navigate to="/login" />} />
+            <Route path="/expenses" element={isAuthenticated ? <Expenses /> : <Navigate to="/login" />} />
+            <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
           </Routes>
         </div>
       </Router>

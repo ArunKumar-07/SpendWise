@@ -1,4 +1,3 @@
-// src/useColorScheme.js
 import { useEffect, useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
 import useLocalStorageState from "use-local-storage-state";

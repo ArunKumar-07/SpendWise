@@ -20,15 +20,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
         if (request.getRequestURI().equals("/new/signup") || request.getRequestURI().equals("/new/login")) {
             chain.doFilter(request, response);
             return;
         }
 
         final String requestTokenHeader = request.getHeader("Authorization");
-        System.out.println("validate token process : ");
-        if (requestTokenHeader == null ) {
+        System.out.println("Request URI: " + request.getRequestURI());
+        System.out.println("Authorization Header: " + requestTokenHeader);
+
+        if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             System.out.println("Authorization header is missing or invalid");
             response.getWriter().write("Authorization header is missing or invalid");
@@ -38,9 +41,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwtToken = requestTokenHeader.substring(7);
         try {
             String username = jwtutils.extractUsername(jwtToken);
-            if (username != null && jwtutils.validateToken(jwtToken, username)) {
-                System.out.println("token is success");
+            Long userId = jwtutils.extractUserId(jwtToken);
+            System.out.println("Extracted username: " + username);
+            System.out.println("Extracted userId: " + userId);
+
+            if (username != null && userId != null && jwtutils.validateToken(jwtToken, username)) {
+                System.out.println("Token validation successful");
                 request.setAttribute("username", username);
+                request.setAttribute("userId", userId);
                 chain.doFilter(request, response);
             } else {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -49,7 +57,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            System.out.println("Error processing token");
+            System.out.println("Error processing token: " + e.getMessage());
+            e.printStackTrace();
             response.getWriter().write("Error processing token: " + e.getMessage());
         }
     }
